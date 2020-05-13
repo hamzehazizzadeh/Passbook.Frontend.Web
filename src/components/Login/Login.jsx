@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { context } from '../context/context';
+import HashLoader from 'react-spinners/HashLoader';
 
 const Login = () => {
   const loginContext = useContext(context);
@@ -12,6 +13,7 @@ const Login = () => {
     password,
     setPassword,
     validator,
+    loading,
     handleLogin,
   } = loginContext;
 
@@ -20,6 +22,8 @@ const Login = () => {
       <Helmet>
         <title>پسبوک | ورود به حساب کاربری</title>
       </Helmet>
+      <HashLoader css={'width:100%; position: absolute; top : 50% ;'} size={50} color={'#ff0000'} loading={loading} />
+
       <div className="container py-4">
         <div className="content-auth">
           <p className="title-auth">ورود به حساب کاربری</p>
@@ -27,7 +31,7 @@ const Login = () => {
             <form onSubmit={(e) => handleLogin(e)}>
               {/* User Name */}
               <div>
-                <label className="d-block text-left">نام کاربری یا ایمیل</label>
+                <label className="d-block text-left">نام کاربری</label>
                 <input
                   type="text"
                   name="userName"
@@ -41,7 +45,7 @@ const Login = () => {
                 {validator.current.message(
                   'userName',
                   userName,
-                  'required|min:5'
+                  'required|min:5|max:20'
                 )}
               </div>
               {/* Password */}
@@ -68,14 +72,17 @@ const Login = () => {
               </button>
             </form>
             <div className="text-left py-4">
-              <Link to="/forget-password">
-                <i className="fa fa-lock mr-1"></i>رمز عبور خود را فراموش کرده
-                ام !
-              </Link>
-              <br />
-              <Link to="/register">
-                <i className="fa fa-user mr-1"></i> عضویت در سایت
-              </Link>
+              <div>
+                <Link to="/forget-password">
+                  <i className="fa fa-lock mr-2"></i>رمز عبور خود را فراموش کرده
+                  ام !
+                </Link>
+              </div>
+              <div className="mt-2">
+                <Link to="/register">
+                  <i className="fa fa-user mr-2"></i> عضویت در سایت
+                </Link>
+              </div>
             </div>
           </div>
         </div>

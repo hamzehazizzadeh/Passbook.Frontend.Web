@@ -44,12 +44,12 @@ a {
 
 .title-auth {
   font-size: 2em;
-  padding: 4rem 0;
+  padding: 2.5rem 0;
 }
 
 .form-control-auth {
   width: 100%;
-  height: 4rem;
+  height: 3rem;
   border: 1px solid #e0e0e0;
   background: #f7f7f7;
   border-radius: 0.5rem;
@@ -60,7 +60,7 @@ a {
 
 .submit-auth {
   width: 100%;
-  height: 4rem;
+  height: 3rem;
   border: 1px solid #fc00ff;
   background: #fc00ff;
   border-radius: 0.5rem;
@@ -76,8 +76,9 @@ a {
   background: #00dbde;
 }
 
-.valid-message{
+.valid-message {
   color: red;
   text-align: right;
 }
+
 /* End */

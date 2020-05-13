@@ -2,11 +2,12 @@ import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { context } from '../context/context';
+import HashLoader from 'react-spinners/HashLoader';
 
 const Register = () => {
   const registerContext = useContext(context);
-  console.log(registerContext)
-  console.log(context)
+  console.log(registerContext);
+  console.log(context);
 
   const {
     userName,
@@ -19,13 +20,15 @@ const Register = () => {
     setRepeatPassword,
     handleRegister,
     validator,
+    loading,
   } = registerContext;
-
   return (
     <div className="rtl bg-auth">
       <Helmet>
         <title>پسبوک | ساخت حساب کاربری جدید</title>
       </Helmet>
+      <HashLoader css={'width:100%;position: absolute; top : 50%;'} size={50} color={'#ff0000'} loading={loading} />
+
       <div className="container py-4">
         <div className="content-auth">
           <p className="title-auth">ساخت حساب کاربری جدید</p>
@@ -68,7 +71,7 @@ const Register = () => {
                 {validator.current.message(
                   'emailAddress',
                   emailAddress,
-                  'required'
+                  'required|email'
                 )}
               </div>
               {/* Password */}
@@ -113,7 +116,7 @@ const Register = () => {
             </form>
             <div className="text-left py-4">
               <Link to="/login">
-                <i className="fa fa-sign-in mr-1"></i> ورود به سایت
+                <i className="fa fa-sign-in mr-2"></i> ورود به سایت
               </Link>
             </div>
           </div>

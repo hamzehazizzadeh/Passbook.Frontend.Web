@@ -10,12 +10,14 @@ const AuthContext = ({ children, history }) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
 
   const validator = useRef(
     new SimpleReactValidator({
       messages: {
         required: 'پر کردن این فیلد الزامی میباشد',
-        email: 'ایمیل نوشته شده صحیح نمی باشد',
+        email: 'ایمیل وارد شده صحیح نمی باشد',
         min: 'طول کاراکتر وارد شده کمتر از حد مجاز است',
         max: 'طول کاراکتر وارد شده بیشتر از حد مجاز است',
       },
@@ -40,6 +42,7 @@ const AuthContext = ({ children, history }) => {
       };
       try {
         if (validator.current.allValid()) {
+          setLoading(true);
           const { status, data } = await registerUser(user);
           if (status === 200) {
             successMessage('حساب کاربری شما با موفقیت ایجاد شد.');
@@ -52,6 +55,7 @@ const AuthContext = ({ children, history }) => {
         }
       } catch (ex) {
         errorMessage('مشکلی در ثبت نام پیش آمده.');
+        setLoading(false);
       }
     } else {
       errorMessage('تکرار رمز عبور صحیح نمی باشد.');
@@ -67,6 +71,7 @@ const AuthContext = ({ children, history }) => {
 
     try {
       if (validator.current.allValid()) {
+        setLoading(true);
         const { status, data } = await loginUser(user);
         if (status === 200) {
           successMessage('ورود موفقیت آمیز بود.');
@@ -80,6 +85,7 @@ const AuthContext = ({ children, history }) => {
       }
     } catch (ex) {
       errorMessage('مشکلی در ورود پیش آمده.');
+      setLoading(false);
     }
   };
 
@@ -95,6 +101,7 @@ const AuthContext = ({ children, history }) => {
         repeatPassword,
         setRepeatPassword,
         validator,
+        loading,
         handleRegister,
         handleLogin,
       }}
