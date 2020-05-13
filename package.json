@@ -5,13 +5,16 @@
   "dependencies": {
     "axios": "^0.19.2",
     "cra-template": "1.0.3",
+    "jsonwebtoken": "^8.5.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.0.0",
+    "react-redux-loading-bar": "^4.6.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-toastify": "^6.0.1"
+    "react-toastify": "^6.0.1",
+    "simple-react-validator": "^1.4.6"
   },
   "scripts": {
     "start": "react-scripts start",

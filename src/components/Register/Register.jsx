@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import { context } from '../context/context';
 
 const Register = () => {
+  const registerContext = useContext(context);
+  console.log(registerContext)
+  console.log(context)
+
+  const {
+    userName,
+    setUserName,
+    emailAddress,
+    setEmailAddress,
+    password,
+    setPassword,
+    repeatPassword,
+    setRepeatPassword,
+    handleRegister,
+    validator,
+  } = registerContext;
+
   return (
     <div className="rtl bg-auth">
       <Helmet>
@@ -12,24 +30,46 @@ const Register = () => {
         <div className="content-auth">
           <p className="title-auth">ساخت حساب کاربری جدید</p>
           <div className="container">
-            <form>
+            <form
+              onSubmit={(e) => {
+                handleRegister(e);
+              }}
+            >
               {/* User Name */}
               <div>
                 <label className="d-block text-left">نام کاربری</label>
                 <input
                   type="text"
-                  name="username"
+                  name="userName"
                   className="form-control-auth"
+                  onChange={(e) => {
+                    setUserName(e.target.value);
+                    validator.current.showMessageFor('userName');
+                  }}
                 />
+                {validator.current.message(
+                  'userName',
+                  userName,
+                  'required|min:5|max:20'
+                )}
               </div>
               {/* Email */}
               <div>
                 <label className="d-block text-left">ایمیل</label>
                 <input
                   type="email"
-                  name="email"
+                  name="emailAddress"
                   className="form-control-auth"
+                  onChange={(e) => {
+                    setEmailAddress(e.target.value);
+                    validator.current.showMessageFor('emailAddress');
+                  }}
                 />
+                {validator.current.message(
+                  'emailAddress',
+                  emailAddress,
+                  'required'
+                )}
               </div>
               {/* Password */}
               <div>
@@ -38,16 +78,34 @@ const Register = () => {
                   type="password"
                   name="password"
                   className="form-control-auth"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    validator.current.showMessageFor('password');
+                  }}
                 />
+                {validator.current.message(
+                  'password',
+                  password,
+                  'required|min:6|max:50'
+                )}
               </div>
               {/* Password Repeat */}
               <div>
                 <label className="d-block text-left">تکرار رمز عبور</label>
                 <input
                   type="password"
-                  name="passwordRepeat"
+                  name="repeatPassword"
                   className="form-control-auth"
+                  onChange={(e) => {
+                    setRepeatPassword(e.target.value);
+                    validator.current.showMessageFor('repeatPassword');
+                  }}
                 />
+                {validator.current.message(
+                  'repeatPassword',
+                  repeatPassword,
+                  'required|min:6|max:50'
+                )}
               </div>
               <button type="submit" className="submit-auth">
                 ورود

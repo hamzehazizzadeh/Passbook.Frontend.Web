@@ -22,7 +22,7 @@ a {
 }
 /* End */
 
-/* Login Style */
+/* Auth Style */
 .bg-auth {
   background-image: url('../images/bg-auth.jpg');
   height: 100%;
@@ -39,7 +39,7 @@ a {
   text-align: center;
   background-color: #fff;
   border-radius: 0.5rem;
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 .title-auth {
@@ -54,7 +54,7 @@ a {
   background: #f7f7f7;
   border-radius: 0.5rem;
   padding: 0 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   color: #333333;
 }
 
@@ -74,5 +74,10 @@ a {
   transition: all 0.5s;
   border: 1px solid #00dbde;
   background: #00dbde;
+}
+
+.valid-message{
+  color: red;
+  text-align: right;
 }
 /* End */
