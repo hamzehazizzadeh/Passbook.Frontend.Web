@@ -115,7 +115,7 @@ const Register = () => {
               </button>
             </form>
             <div className="text-left py-4">
-              <Link to="/login">
+              <Link to="/">
                 <i className="fa fa-sign-in mr-2"></i> ورود به سایت
               </Link>
             </div>

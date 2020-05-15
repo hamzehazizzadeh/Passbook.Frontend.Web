@@ -3,7 +3,11 @@ import SimpleReactValidator from 'simple-react-validator';
 import { withRouter } from 'react-router';
 import { context } from './context';
 import { errorMessage, successMessage } from '../../utils/message';
-import { registerUser, loginUser } from '../../services/userService';
+import {
+  registerUser,
+  loginUser,
+  forgetPasswordUser,
+} from '../../services/userService';
 
 const AuthContext = ({ children, history }) => {
   const [userName, setUserName] = useState('');
@@ -11,7 +15,6 @@ const AuthContext = ({ children, history }) => {
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [loading, setLoading] = useState(false);
-
 
   const validator = useRef(
     new SimpleReactValidator({
@@ -45,13 +48,16 @@ const AuthContext = ({ children, history }) => {
           setLoading(true);
           const { status, data } = await registerUser(user);
           if (status === 200) {
-            successMessage('حساب کاربری شما با موفقیت ایجاد شد.');
-            history.push('/login');
+            successMessage(data.message);
+            history.replace('/');
+            setLoading(false);
           } else if (status === 400) {
             errorMessage(data.errorMessage);
+            setLoading(false);
           }
         } else {
           validator.current.showMessages();
+          setLoading(false);
         }
       } catch (ex) {
         errorMessage('مشکلی در ثبت نام پیش آمده.');
@@ -59,6 +65,7 @@ const AuthContext = ({ children, history }) => {
       }
     } else {
       errorMessage('تکرار رمز عبور صحیح نمی باشد.');
+      setLoading(false);
     }
   };
 
@@ -74,14 +81,47 @@ const AuthContext = ({ children, history }) => {
         setLoading(true);
         const { status, data } = await loginUser(user);
         if (status === 200) {
-          successMessage('ورود موفقیت آمیز بود.');
-          history.replace('/');
+          successMessage(data.message);
+          localStorage.setItem('token', data.token);
+          history.replace('/home');
           resetStates();
+          setLoading(false);
         } else if (status === 400) {
           errorMessage(data.errorMessage);
+          setLoading(false);
         }
       } else {
         validator.current.showMessages();
+        setLoading(false);
+      }
+    } catch (ex) {
+      errorMessage('مشکلی در ورود پیش آمده.');
+      setLoading(false);
+    }
+  };
+
+  const handleForgetPassword = async (event) => {
+    event.preventDefault();
+    const user = {
+      emailAddress,
+    };
+
+    try {
+      if (validator.current.allValid()) {
+        setLoading(true);
+        const { status, data } = await forgetPasswordUser(user);
+        if (status === 200) {
+          successMessage(data.message);
+          history.replace('/');
+          resetStates();
+          setLoading(false);
+        } else if (status === 400) {
+          errorMessage(data.errorMessage);
+          setLoading(false);
+        }
+      } else {
+        validator.current.showMessages();
+        setLoading(false);
       }
     } catch (ex) {
       errorMessage('مشکلی در ورود پیش آمده.');
@@ -104,6 +144,7 @@ const AuthContext = ({ children, history }) => {
         loading,
         handleRegister,
         handleLogin,
+        handleForgetPassword,
       }}
     >
       {children}

@@ -1,8 +1,10 @@
 import { toast } from 'react-toastify';
 
 const option = {
-  position: 'top-right',
-  closeOnClick: true,
+  position : 'top-right',
+  autoClose : 5000,
+  closeOnClick : true,
+  pauseOnHover : true,
 };
 
 export const successMessage = (message) => {

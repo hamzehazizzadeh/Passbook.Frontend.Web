@@ -14,3 +14,17 @@ export const loginUser = (user) => {
     JSON.stringify(user)
   );
 };
+
+export const logoutUser = (userId) => {
+  return http.post(
+    `${config.passbookapi}/api/account/logout`,
+    JSON.stringify(userId)
+  );
+};
+
+export const forgetPasswordUser = (user) => {
+  return http.post(
+    `${config.passbookapi}/api/account/forget`,
+    JSON.stringify(user)
+  );
+};
