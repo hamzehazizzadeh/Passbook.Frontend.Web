@@ -28,3 +28,10 @@ export const forgetPasswordUser = (user) => {
     JSON.stringify(user)
   );
 };
+
+export const resetPasswordUser = (user) => {
+  return http.post(
+    `${config.passbookapi}/api/account/forget`,
+    JSON.stringify(user)
+  );
+};

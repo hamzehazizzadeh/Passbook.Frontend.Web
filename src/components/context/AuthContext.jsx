@@ -7,6 +7,7 @@ import {
   registerUser,
   loginUser,
   forgetPasswordUser,
+  resetPasswordUser,
 } from '../../services/userService';
 
 const AuthContext = ({ children, history }) => {
@@ -124,7 +125,40 @@ const AuthContext = ({ children, history }) => {
         setLoading(false);
       }
     } catch (ex) {
-      errorMessage('مشکلی در ورود پیش آمده.');
+      errorMessage('مشکلی در بازیابی رمز عبور پیش آمده.');
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (event) => {
+    event.preventDefault();
+    if (password == repeatPassword) {
+      const user = {
+        password,
+      };
+      try {
+        if (validator.current.allValid()) {
+          setLoading(true);
+          const { status, data } = await resetPasswordUser(user);
+          if (status === 200) {
+            successMessage(data.message);
+            history.replace('/');
+            resetStates();
+            setLoading(false);
+          } else if (status === 400) {
+            errorMessage(data.errorMessage);
+            setLoading(false);
+          }
+        } else {
+          validator.current.showMessages();
+          setLoading(false);
+        }
+      } catch (ex) {
+        errorMessage('مشکلی در تغییر رمز عبور پیش آمده.');
+        setLoading(false);
+      }
+    } else {
+      errorMessage('تکرار رمز عبور صحیح نمی باشد.');
       setLoading(false);
     }
   };
@@ -145,6 +179,7 @@ const AuthContext = ({ children, history }) => {
         handleRegister,
         handleLogin,
         handleForgetPassword,
+        handleResetPassword,
       }}
     >
       {children}

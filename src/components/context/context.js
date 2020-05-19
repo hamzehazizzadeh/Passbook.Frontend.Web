@@ -13,4 +13,5 @@ export const context = createContext({
   handleLogin: () => {},
   handleRegister: () => {},
   handleForgetPassword: () => {},
+  handleResetPassword: () => {},
 });

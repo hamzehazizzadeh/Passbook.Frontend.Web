@@ -10,6 +10,7 @@ import { Switch, Route, Redirect } from 'react-router';
 import { decodeToken } from './../utils/decodeToken';
 import { logoutUser } from './../services/userService';
 import ForgetPassword from './../components/Register/ForgetPassword';
+import ResetPassword from '../components/Register/ResetPassword';
 
 const Passbook = () => {
   const [user, setUser] = useState('');
@@ -22,7 +23,7 @@ const Passbook = () => {
 
       if (decodedToken.payload.exp < dateNow) {
         localStorage.removeItem('token');
-        logoutUser(decodeToken.payload.unique_name);
+        logoutUser(decodedToken.payload.unique_name);
         setUser('');
       } else setUser(decodedToken.payload.unique_name);
     }
@@ -63,6 +64,19 @@ const Passbook = () => {
           isEmpty(user) ? (
             <AuthContext>
               <ForgetPassword />
+            </AuthContext>
+          ) : (
+            <Redirect to="/home" />
+          )
+        }
+      />
+      {/* Reset Password Component */}
+      <Route
+        path="/reset-password"
+        render={() =>
+          isEmpty(user) ? (
+            <AuthContext>
+              <ResetPassword />
             </AuthContext>
           ) : (
             <Redirect to="/home" />
