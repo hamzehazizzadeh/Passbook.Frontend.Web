@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { context } from '../context/context';
+import { context } from '../context/auth';
 import HashLoader from 'react-spinners/HashLoader';
 
 const Login = () => {
@@ -22,7 +22,12 @@ const Login = () => {
       <Helmet>
         <title>پسبوک | ورود به حساب کاربری</title>
       </Helmet>
-      <HashLoader css={'width:100%; position: absolute; top : 50% ;'} size={50} color={'#ff0000'} loading={loading} />
+      <HashLoader
+        css={'width:100%; position: absolute; top : 50% ;'}
+        size={50}
+        color={'#ff0000'}
+        loading={loading}
+      />
 
       <div className="container py-4">
         <div className="content-auth">

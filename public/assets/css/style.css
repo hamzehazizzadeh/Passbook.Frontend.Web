@@ -1,4 +1,6 @@
 /* Default Style */
+
+/* Vazir Font */
 @font-face {
   font-family: 'Vazir';
   src: url('../fonts/Vazir-Bold.eot'); /* IE9 Compat Modes */
@@ -7,6 +9,12 @@
     /* Super Modern Browsers */ url('../fonts/Vazir-Bold.woff') format('woff'),
     /* Pretty Modern Browsers */ url('../fonts/Vazir-Bold.ttf')
       format('truetype'); /* Safari, Android, iOS */
+}
+
+/* Lale Zar Font */
+@font-face {
+  font-family: 'Lalezar';
+  src: url('../fonts/Lalezar-Regular.ttf'); /* IE9 Compat Modes */
 }
 html {
   overflow-x: hidden;
@@ -44,7 +52,9 @@ a {
 
 .title-auth {
   font-size: 2em;
-  padding: 2.5rem 0;
+  padding: 2rem 0 1.5rem 0;
+  font-family: 'Lalezar';
+  border-bottom: #fc00ff 2px solid;
 }
 
 .form-control-auth {
@@ -80,5 +90,51 @@ a {
   color: red;
   text-align: right;
 }
+/* End */
 
+/* Header Style */
+.header-box {
+  padding: 0 1rem;
+  margin: 1rem 0;
+  color: #fff;
+}
+
+.header-box:hover {
+  color: #000;
+  transition: all .5s;
+}
+/* End */
+
+/* Home Style */
+.bg-home {
+  background: linear-gradient(90deg, #dd2476, #ff512f);
+  height: 100%;
+}
+
+/* End */
+
+/* Footer Style */
+.bg-footer {
+  background-color: #fff;
+  min-height: 1rem;
+  max-height: 10rem;
+  text-align: center;
+  transition: all 1s;
+}
+
+.copy-footer {
+  color: #000;
+  padding: 0.8rem 0;
+  font-size: 14px;
+}
+
+.link-footer {
+  color: #000;
+  transition: all 0.5s;
+}
+
+.link-footer:hover {
+  color: #00aade;
+  transition: all 0.5s;
+}
 /* End */

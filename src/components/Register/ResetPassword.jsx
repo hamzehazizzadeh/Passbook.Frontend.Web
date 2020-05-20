@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { context } from '../context/context';
+import { context } from '../context/auth';
 import HashLoader from 'react-spinners/HashLoader';
 
 const ResetPassword = () => {

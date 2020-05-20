@@ -11,6 +11,7 @@ import { decodeToken } from './../utils/decodeToken';
 import { logoutUser } from './../services/userService';
 import ForgetPassword from './../components/Register/ForgetPassword';
 import ResetPassword from '../components/Register/ResetPassword';
+import HomeContext from '../components/context/HomeContext';
 
 const Passbook = () => {
   const [user, setUser] = useState('');
@@ -23,7 +24,7 @@ const Passbook = () => {
 
       if (decodedToken.payload.exp < dateNow) {
         localStorage.removeItem('token');
-        logoutUser(decodedToken.payload.unique_name);
+        logoutUser(decodedToken);
         setUser('');
       } else setUser(decodedToken.payload.unique_name);
     }
@@ -36,11 +37,11 @@ const Passbook = () => {
         path="/home"
         render={() =>
           isEmpty(user) ? (
-            <Redirect to="/" />
-          ) : (
-            <AuthContext>
+            <HomeContext>
               <Home />
-            </AuthContext>
+            </HomeContext>
+          ) : (
+            <Redirect to="/" />
           )
         }
       />
@@ -84,10 +85,7 @@ const Passbook = () => {
         }
       />
       {/* Log Out Component */}
-      <Route
-        path="/logout"
-        render={() => (isEmpty(user) ? <Redirect to="/" /> : <Logout />)}
-      />
+      <Route path="/logout" component={Logout} />
       {/* Login Component */}
       <Route
         path="/"

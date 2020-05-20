@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { withRouter } from 'react-router';
-import { context } from './context';
+import { context } from './auth';
 import { errorMessage, successMessage } from '../../utils/message';
 import {
   registerUser,
@@ -50,7 +50,7 @@ const AuthContext = ({ children, history }) => {
           const { status, data } = await registerUser(user);
           if (status === 200) {
             successMessage(data.message);
-            history.replace('/');
+            history.push('/');
             setLoading(false);
           } else if (status === 400) {
             errorMessage(data.errorMessage);
@@ -87,6 +87,7 @@ const AuthContext = ({ children, history }) => {
           history.replace('/home');
           resetStates();
           setLoading(false);
+          window.location.reload(true)
         } else if (status === 400) {
           errorMessage(data.errorMessage);
           setLoading(false);
