@@ -11,7 +11,6 @@ import { decodeToken } from './../utils/decodeToken';
 import { logoutUser } from './../services/userService';
 import ForgetPassword from './../components/Register/ForgetPassword';
 import ResetPassword from '../components/Register/ResetPassword';
-import HomeContext from '../components/context/HomeContext';
 
 const Passbook = () => {
   const [user, setUser] = useState('');
@@ -37,9 +36,7 @@ const Passbook = () => {
         path="/home"
         render={() =>
           isEmpty(user) ? (
-            <HomeContext>
               <Home />
-            </HomeContext>
           ) : (
             <Redirect to="/" />
           )

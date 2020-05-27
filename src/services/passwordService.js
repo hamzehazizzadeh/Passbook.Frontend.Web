@@ -2,11 +2,11 @@ import http from './httpService';
 import config from './config.json';
 
 export const addPassword = (pass) => {
-  return http.post(`${config.passbookapi}/api/password/addpassword`, JSON.stringify(pass));
+  return http.post(`${config.passbookapi}/api/password/addpassword/`, JSON.stringify(pass));
 };
 
 export const getPasswords = () => {
-  return http.get(`${config.passbookapi}/api/password/getpasswords`);
+  return http.get(`${config.passbookapi}/api/password/getpasswords/`);
 };
 
 export const getPassword = (passId) => {

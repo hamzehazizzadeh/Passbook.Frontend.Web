@@ -36,7 +36,6 @@ const Header = () => {
 
         <a
           href="https://github.com/murik-team"
-          target="_blank"
           className="col-3 header-box border-right"
         >
           <div>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog';
+import { DialogOverlay, DialogContent } from '@reach/dialog';
 import { getPassword } from '../../../services/passwordService';
 import SimpleReactValidator from 'simple-react-validator';
-import { updatePassword } from './../../../services/passwordService';
+import { updatePassword } from '../../../services/passwordService';
 
 const EditPasswordDialog = ({ showDialog, closeDialog }) => {
   const [passwordId, setPasswordId] = useState();

@@ -115,7 +115,7 @@ const Register = () => {
                 )}
               </div>
               <button type="submit" className="submit-auth">
-                ورود
+                ثبت نام
               </button>
             </form>
             <div className="text-left py-4">

@@ -38,7 +38,7 @@ const AuthContext = ({ children, history }) => {
 
   const handleRegister = async (event) => {
     event.preventDefault();
-    if (password == repeatPassword) {
+    if (password === repeatPassword) {
       const user = {
         userName,
         emailAddress,
@@ -133,7 +133,7 @@ const AuthContext = ({ children, history }) => {
 
   const handleResetPassword = async (event) => {
     event.preventDefault();
-    if (password == repeatPassword) {
+    if (password === repeatPassword) {
       const user = {
         password,
       };
