@@ -1,8 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Footer from '../Footer/Footer';
 import Header from './../Header/Header';
+import EditPasswordDialog from './Dialog/EditCourseDialog';
+import { getPasswords } from '../../services/passwordService';
 
 const Home = () => {
+  const [openEditPasswordDialog, setOpenEditPasswordDialog] = useState(false);
+  const [allPasswords,] = useState(getPasswords());
+
   let count = 1;
   return (
     <div className="rtl bg-home">
@@ -21,316 +26,39 @@ const Home = () => {
             </tr>
           </thead>
           <tbody>
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-
-            <tr key="1">
-              <th>{count++}</th>
-              <td>123456</td>
-              <td>5</td>
-              <td>1399/12/05</td>
-              <td>
-                <button className="btn btn-info">
-                  <i className="fa fa-eye"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-primary">
-                  <i className="fa fa-pencil"></i>
-                </button>
-              </td>
-              <td>
-                <button className="btn btn-danger">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
+            {allPasswords.map((password) => (
+              <tr key={password.id}>
+                <th>{count++}</th>
+                <td>{password.password}</td>
+                <td>{password.usedIn.length}</td>
+                <td>{password.createDateTime}</td>
+                <td>
+                  <button className="btn btn-info">
+                    <i className="fa fa-eye"></i>
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() =>
+                      setOpenEditPasswordDialog(!openEditPasswordDialog)
+                    }
+                  >
+                    <i className="fa fa-pencil"></i>
+                  </button>
+                </td>
+                <td>
+                  <button className="btn btn-danger">
+                    <i className="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+
+      <EditPasswordDialog password={allPasswords} showDialog={openEditPasswordDialog} />
       <Footer />
     </div>
   );

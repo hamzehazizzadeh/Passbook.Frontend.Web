@@ -1,22 +1,57 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog';
-import { homeContext } from './../../context/home';
+import { getPassword } from '../../../services/passwordService';
+import SimpleReactValidator from 'simple-react-validator';
+import { updatePassword } from './../../../services/passwordService';
 
-const NewPasswordDialog = ({ showDialog, closeDialog }) => {
-  const newPasswordContext = useContext(homeContext);
-  let {
-    userName,
-    setUserName,
-    emailAddress,
-    setEmailAddress,
-    password,
-    setPassword,
-    placesUsed,
-    setPlacesUsed,
-    validator,
-    loading,
-    handleNewPassword,
-  } = newPasswordContext;
+const EditPasswordDialog = ({ showDialog, closeDialog }) => {
+  const [passwordId, setPasswordId] = useState();
+  const [userName, setUserName] = useState();
+  const [emailAddress, setEmailAddress] = useState();
+  const [placesUsed, setPlacesUsed] = useState();
+  const [password, setPassword] = useState();
+  const [allPassword] = useState(getPassword());
+
+  const validator = useRef(
+    new SimpleReactValidator({
+      messages: {
+        required: 'پر کردن این فیلد الزامی میباشد',
+        email: 'ایمیل وارد شده صحیح نمی باشد',
+        min: 'طول کاراکتر وارد شده کمتر از حد مجاز است',
+        max: 'طول کاراکتر وارد شده بیشتر از حد مجاز است',
+      },
+      element: (message) => <p className="valid-message">{message}</p>,
+    })
+  );
+
+  useEffect(() => {
+    setPasswordId(allPassword._id);
+    setUserName(allPassword.userName);
+    setEmailAddress(allPassword.emailAddress);
+    setPlacesUsed(allPassword.placesUsed);
+    setPassword(allPassword.password);
+
+    return () => {
+      setPasswordId();
+      setUserName();
+      setEmailAddress();
+      setPlacesUsed();
+      setPassword();
+    };
+  }, [allPassword]);
+
+  const handleEditPassword = (event) => {
+    event.preventDefault();
+    let data = new FormData();
+    data.append('userName', userName);
+    data.append('emailAddress', emailAddress);
+    data.append('placesUsed', placesUsed);
+    data.append('password', password);
+
+    updatePassword(passwordId, data);
+    closeDialog();
+  };
+
   return (
     <DialogOverlay
       style={{ position: 'fixed', top: '0' }}
@@ -32,10 +67,10 @@ const NewPasswordDialog = ({ showDialog, closeDialog }) => {
         }}
       >
         <div className="container">
-          <h5 className="text-center mt-2 text-success">افزودن رمز جدید</h5>
+          <h5 className="text-center mt-2 text-success">ویرایش رمز</h5>
           <form
             onSubmit={(e) => {
-              handleNewPassword(e);
+              handleEditPassword(e);
             }}
           >
             {/* User Name */}
@@ -101,7 +136,7 @@ const NewPasswordDialog = ({ showDialog, closeDialog }) => {
               </div>
             </div>
             <button type="submit" className="btn btn-success btn-block my-3">
-              افزودن
+              ویرایش
             </button>
           </form>
         </div>
@@ -110,4 +145,4 @@ const NewPasswordDialog = ({ showDialog, closeDialog }) => {
   );
 };
 
-export default NewPasswordDialog;
+export default EditPasswordDialog;

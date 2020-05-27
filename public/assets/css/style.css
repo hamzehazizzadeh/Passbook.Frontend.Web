@@ -97,6 +97,7 @@ a {
   padding: 0 1rem;
   margin: 1rem 0;
   color: #fff;
+  cursor: pointer;
 }
 
 .header-box:hover {
@@ -107,7 +108,7 @@ a {
 
 /* Home Style */
 .bg-home {
-  background: linear-gradient(90deg, #dd2476, #ff512f);
+  background: linear-gradient(90deg, #031e46, #bb0000);
   height: 100%;
 }
 
