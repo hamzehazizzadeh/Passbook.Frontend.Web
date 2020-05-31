@@ -1,16 +1,21 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { DialogOverlay, DialogContent } from '@reach/dialog';
-import { getPassword } from '../../../services/passwordService';
+import React, { useState, useRef, useEffect } from 'react';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 import SimpleReactValidator from 'simple-react-validator';
-import { updatePassword } from '../../../services/passwordService';
+import { updatePassword } from './../../../services/passwordService';
+import { successMessage, errorMessage } from '../../../utils/message';
+import { useStyles } from './styleDialog';
 
-const EditPasswordDialog = ({ showDialog, closeDialog }) => {
+const EditPasswordDialog = ({ passwords }) => {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
   const [passwordId, setPasswordId] = useState();
   const [userName, setUserName] = useState();
   const [emailAddress, setEmailAddress] = useState();
-  const [placesUsed, setPlacesUsed] = useState();
+  const [usedIn, setUsedIn] = useState();
   const [password, setPassword] = useState();
-  const [allPassword] = useState(getPassword());
+  const [, setLoading] = useState(false);
 
   const validator = useRef(
     new SimpleReactValidator({
@@ -24,124 +29,176 @@ const EditPasswordDialog = ({ showDialog, closeDialog }) => {
     })
   );
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   useEffect(() => {
-    setPasswordId(allPassword._id);
-    setUserName(allPassword.userName);
-    setEmailAddress(allPassword.emailAddress);
-    setPlacesUsed(allPassword.placesUsed);
-    setPassword(allPassword.password);
+    setPasswordId(passwords.id);
 
     return () => {
       setPasswordId();
-      setUserName();
-      setEmailAddress();
-      setPlacesUsed();
-      setPassword();
     };
-  }, [allPassword]);
+  }, [passwords]);
 
-  const handleEditPassword = (event) => {
+  const resetStates = () => {
+    setUserName('');
+    setEmailAddress('');
+    setPassword('');
+    setUsedIn('');
+  };
+
+  const handleEditPassword = async (event, id) => {
     event.preventDefault();
-    let data = new FormData();
-    data.append('userName', userName);
-    data.append('emailAddress', emailAddress);
-    data.append('placesUsed', placesUsed);
-    data.append('password', password);
-
-    updatePassword(passwordId, data);
-    closeDialog();
+    const pass = {
+      userName,
+      emailAddress,
+      usedIn,
+      password,
+    };
+    try {
+      if (validator.current.allValid()) {
+        setLoading(true);
+        const { status, data } = await updatePassword(id, pass);
+        if (status === 200) {
+          successMessage(data.message);
+          setLoading(false);
+          resetStates();
+          handleClose();
+        } else if (status === 400) {
+          errorMessage(data.errorMessage);
+          setLoading(false);
+        }
+      } else {
+        validator.current.showMessages();
+        setLoading(false);
+      }
+    } catch (ex) {
+      errorMessage('مشکلی در ویرایش پیش آمده.');
+      setLoading(false);
+    }
   };
 
   return (
-    <DialogOverlay
-      style={{ position: 'fixed', top: '0' }}
-      isOpen={showDialog}
-      onDismiss={closeDialog}
-      className="rtl bg-white"
-    >
-      <DialogContent
-        style={{
-          border: 'solid 2px hsla(0, 0%, 0%, 0.5)',
-          borderRadius: '5px',
-          boxShadow: '0px 10px 50px hsla(0, 0%, 0%, 0.33)',
+    <div>
+      <button className="btn btn-primary ml-2 mb-2" onClick={handleOpen}>
+        <i className="fa fa-pencil"></i>
+      </button>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
         }}
       >
-        <div className="container">
-          <h5 className="text-center mt-2 text-success">ویرایش رمز</h5>
-          <form
-            onSubmit={(e) => {
-              handleEditPassword(e);
-            }}
-          >
-            {/* User Name */}
-            <div>
-              <label className="d-block text-left mt-3">نام کاربری</label>
-              <input
-                type="text"
-                name="userName"
-                className="form-control mb-2"
-                onChange={(e) => {
-                  setUserName(e.target.value);
-                  validator.current.showMessageFor('userName');
+        <Fade in={open}>
+          <div className={classes.paper} key={passwordId}>
+            <div className="container">
+              <h5 className="text-center mt-2 text-success">ویرایش رمز</h5>
+              <form
+                onSubmit={(e) => {
+                  handleEditPassword(e, passwordId);
                 }}
-              />
-              {validator.current.message('userName', userName, 'max:250')}
+              >
+                {/* User Name */}
+                <div>
+                  <label className="d-block mt-3">نام کاربری</label>
+                  <input
+                    type="text"
+                    name="userName"
+                    className="form-control mb-2"
+                    value={userName}
+                    onChange={(e) => {
+                      setUserName(e.target.value);
+                      validator.current.showMessageFor('userName');
+                    }}
+                  />
+                  {validator.current.message('userName', userName, 'max:20')}
+                </div>
+                {/* Email */}
+                <div>
+                  <label className="d-block mt-3">ایمیل</label>
+                  <input
+                    type="text"
+                    name="emailAddress"
+                    className="form-control mb-2"
+                    value={emailAddress}
+                    onChange={(e) => {
+                      setEmailAddress(e.target.value);
+                      validator.current.showMessageFor('emailAddress');
+                    }}
+                  />
+                  {validator.current.message(
+                    'emailAddress',
+                    emailAddress,
+                    'email'
+                  )}
+                </div>
+                {/* UsedI n*/}
+                <div>
+                  <label className="d-block mt-3">جاهای استفاده شده</label>
+                  <input
+                    type="text"
+                    name="usedIn"
+                    className="form-control mb-2"
+                    value={usedIn}
+                    onChange={(e) => {
+                      setUsedIn(e.target.value);
+                      validator.current.showMessageFor('usedIn');
+                    }}
+                  />
+                  {validator.current.message(
+                    'usedIn',
+                    usedIn,
+                    'required|max:1000'
+                  )}
+                  {/* Password */}
+                  <div>
+                    <label className="d-block mt-3">رمز عبور</label>
+                    <input
+                      type="password"
+                      name="password"
+                      className="form-control mb-2"
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        validator.current.showMessageFor('password');
+                      }}
+                    />
+                    {validator.current.message(
+                      'password',
+                      password,
+                      'required|min:3|max:250'
+                    )}
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-success btn-block my-2"
+                >
+                  ویرایش
+                </button>
+                <button
+                  className="btn btn-danger btn-block"
+                  onClick={handleClose}
+                >
+                  انصراف
+                </button>
+              </form>
             </div>
-            {/* Email */}
-            <div>
-              <label className="d-block text-left mt-3">ایمیل</label>
-              <input
-                type="text"
-                name="emailAddress"
-                className="form-control mb-2"
-                onChange={(e) => {
-                  setEmailAddress(e.target.value);
-                  validator.current.showMessageFor('emailAddress');
-                }}
-              />
-              {validator.current.message('emailAddress', emailAddress, 'email')}
-            </div>
-            {/* Places Used */}
-            <div>
-              <label className="d-block text-left mt-3">
-                جاهای استفاده شده
-              </label>
-              <input
-                type="text"
-                name="placesUsed"
-                className="form-control mb-2"
-                onChange={(e) => {
-                  setPlacesUsed(e.target.value);
-                  validator.current.showMessageFor('placesUsed');
-                }}
-              />
-              {validator.current.message('placesUsed', placesUsed, 'max:1000')}
-              {/* Password */}
-              <div>
-                <label className="d-block text-left mt-3">رمز عبور</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control mb-2"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    validator.current.showMessageFor('password');
-                  }}
-                />
-                {validator.current.message(
-                  'password',
-                  password,
-                  'required|min:3|max:250'
-                )}
-              </div>
-            </div>
-            <button type="submit" className="btn btn-success btn-block my-3">
-              ویرایش
-            </button>
-          </form>
-        </div>
-      </DialogContent>
-    </DialogOverlay>
+          </div>
+        </Fade>
+      </Modal>
+    </div>
   );
 };
 

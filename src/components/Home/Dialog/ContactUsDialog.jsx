@@ -1,20 +1,28 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import SimpleReactValidator from 'simple-react-validator';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import SimpleReactValidator from 'simple-react-validator';
-import { addPassword } from '../../../services/passwordService';
+import { decodeToken } from '../../../utils/decodeToken';
+import { contactUsMessage } from '../../../services/userService';
 import { successMessage, errorMessage } from '../../../utils/message';
 import { useStyles } from './styleDialog';
 
-const NewPasswordDialog = () => {
+const ContactUsDialog = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
-  const [usedIn, setUsedIn] = useState('');
-  const [, setLoading] = useState(false);
+  const [title, setTitle] = useState('');
+  const [userMessage, setUserMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = decodeToken(token);
+      setUserName(decodedToken.payload.unique_name);
+    }
+  }, []);
 
   const validator = useRef(
     new SimpleReactValidator({
@@ -29,28 +37,25 @@ const NewPasswordDialog = () => {
   );
 
   const resetStates = () => {
-    setUserName('');
-    setEmailAddress('');
-    setPassword('');
-    setUsedIn('');
+    setTitle('');
+    setUserMessage('');
   };
 
-  const handleNewPassword = async (event) => {
+  const handleMessage = async (event) => {
     event.preventDefault();
-    const pass = {
-      userName,
-      emailAddress,
-      usedIn,
-      password,
+    const message = {
+      title,
+      userMessage,
     };
+
     try {
       if (validator.current.allValid()) {
         setLoading(true);
-        const { status, data } = await addPassword(pass);
+        const { status, data } = await contactUsMessage(message);
         if (status === 200) {
           successMessage(data.message);
-          setLoading(false);
           resetStates();
+          setLoading(false);
           handleClose();
         } else if (status === 400) {
           errorMessage(data.errorMessage);
@@ -61,7 +66,7 @@ const NewPasswordDialog = () => {
         setLoading(false);
       }
     } catch (ex) {
-      errorMessage('مشکلی در افزودن پیش آمده.');
+      errorMessage('مشکلی در ارسال پیش آمده.');
       setLoading(false);
     }
   };
@@ -78,9 +83,9 @@ const NewPasswordDialog = () => {
     <div>
       <div onClick={handleOpen}>
         <div>
-          <i className="fa fa-plus"></i>
+          <i className="fa fa-phone"></i>
         </div>
-        <div>افزودن رمز جدید</div>
+        <div>تماس با ما</div>
       </div>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -96,88 +101,63 @@ const NewPasswordDialog = () => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h5 className="text-center mt-2 text-success">افزودن رمز جدید</h5>
+            <h5 className="text-center mt-2 text-success">تماس با ما</h5>
             <form
               onSubmit={(e) => {
-                handleNewPassword(e);
+                handleMessage(e);
               }}
             >
               {/* User Name */}
               <div>
                 <label className="d-block mt-3">نام کاربری</label>
                 <input
+                  value={userName}
                   type="text"
                   name="userName"
-                  className="form-control mb-2"
-                  value={userName}
-                  onChange={(e) => {
-                    setUserName(e.target.value);
-                    validator.current.showMessageFor('userName');
-                  }}
+                  className="form-control mb-2 bg-light"
+                  readOnly
                 />
-                {validator.current.message('userName', userName, 'max:20')}
               </div>
-              {/* Email */}
+              {/* Title */}
               <div>
-                <label className="d-block mt-3">ایمیل</label>
+                <label className="d-block mt-3">عنوان</label>
                 <input
                   type="text"
-                  name="emailAddress"
+                  name="title"
+                  value={title}
                   className="form-control mb-2"
-                  value={emailAddress}
                   onChange={(e) => {
-                    setEmailAddress(e.target.value);
-                    validator.current.showMessageFor('emailAddress');
+                    setTitle(e.target.value);
+                    validator.current.showMessageFor('title');
                   }}
                 />
                 {validator.current.message(
-                  'emailAddress',
-                  emailAddress,
-                  'email'
+                  'title',
+                  title,
+                  'required|min:3|max:50'
                 )}
               </div>
-              {/* Used In */}
+              {/* User Message */}
               <div>
-                <label className="d-block mt-3">
-                  جاهای استفاده شده
-                </label>
-                <input
-                  type="text"
-                  name="usedIn"
-                  className="form-control mb-2"
-                  value={usedIn}
+                <label className="d-block mt-3">پیغام</label>
+                <textarea
+                  name="userMessage"
+                  className="form-control mb-2 text-right"
+                  style={{ minHeight: '8rem', maxHeight:'15rem' }}
+                  value={userMessage}
                   onChange={(e) => {
-                    setUsedIn(e.target.value);
-                    validator.current.showMessageFor('placesUsed');
+                    setUserMessage(e.target.value);
+                    validator.current.showMessageFor('userMessage');
                   }}
-                />
+                ></textarea>
                 {validator.current.message(
-                  'placesUsed',
-                  usedIn,
-                  'required|max:1000'
+                  'userMessage',
+                  userMessage,
+                  'required|min:6|max:50'
                 )}
-                {/* Password */}
-                <div>
-                  <label className="d-block mt-3">رمز عبور</label>
-                  <input
-                    type="password"
-                    name="password"
-                    className="form-control mb-2"
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      validator.current.showMessageFor('password');
-                    }}
-                  />
-                  {validator.current.message(
-                    'password',
-                    password,
-                    'required|min:3|max:250'
-                  )}
-                </div>
               </div>
               <button type="submit" className="btn btn-success btn-block my-2">
-                افزودن
+                ارسال
               </button>
               <button
                 className="btn btn-danger btn-block"
@@ -193,4 +173,4 @@ const NewPasswordDialog = () => {
   );
 };
 
-export default NewPasswordDialog;
+export default ContactUsDialog;

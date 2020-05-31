@@ -35,3 +35,10 @@ export const resetPasswordUser = (user) => {
     JSON.stringify(user)
   );
 };
+
+export const contactUsMessage = (message) => {
+  return http.post(
+    `${config.passbookapi}/api/addmessage`,
+    JSON.stringify(message)
+  );
+};

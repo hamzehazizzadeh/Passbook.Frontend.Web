@@ -87,7 +87,7 @@ const AuthContext = ({ children, history }) => {
           history.replace('/home');
           resetStates();
           setLoading(false);
-          window.location.reload(true)
+          window.location.reload()
         } else if (status === 400) {
           errorMessage(data.errorMessage);
           setLoading(false);

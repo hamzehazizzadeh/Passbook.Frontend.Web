@@ -4,13 +4,13 @@ import Home from './../components/Home/Home';
 import Register from './../components/Register/Register';
 import AuthContext from './../components/context/AuthContext';
 import Logout from '../components/Login/Logout';
+import ForgetPassword from './../components/Register/ForgetPassword';
+import ResetPassword from '../components/Register/ResetPassword';
 import NotFound from './../components/NotFound/NotFound';
 import { isEmpty } from 'lodash';
 import { Switch, Route, Redirect } from 'react-router';
 import { decodeToken } from './../utils/decodeToken';
 import { logoutUser } from './../services/userService';
-import ForgetPassword from './../components/Register/ForgetPassword';
-import ResetPassword from '../components/Register/ResetPassword';
 
 const Passbook = () => {
   const [user, setUser] = useState('');
@@ -27,7 +27,7 @@ const Passbook = () => {
         setUser('');
       } else setUser(decodedToken.payload.unique_name);
     }
-  }, []);
+  });
 
   return (
     <Switch>
@@ -36,9 +36,9 @@ const Passbook = () => {
         path="/home"
         render={() =>
           isEmpty(user) ? (
-              <Home />
-          ) : (
             <Redirect to="/" />
+          ) : (
+              <Home />
           )
         }
       />

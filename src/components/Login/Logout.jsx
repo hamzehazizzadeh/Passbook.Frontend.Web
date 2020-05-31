@@ -8,7 +8,8 @@ const Logout = ({ history }) => {
     logoutUser(token);
     localStorage.removeItem('token');
     history.push('/');
-  }, []);
+    window.location.reload(true);
+  });
 
   return null;
 };

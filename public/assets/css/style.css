@@ -101,7 +101,7 @@ a {
 }
 
 .header-box:hover {
-  color: #000;
+  color: skyblue;
   transition: all .5s;
 }
 /* End */

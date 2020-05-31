@@ -1,52 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NewPasswordDialog from './../Home/Dialog/NewPasswordDialog';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import ContactUsDialog from './../Home/Dialog/ContactUsDialog';
 
 const Header = () => {
-  const [openNewPasswordDialog, setOpenNewPasswordDialog] = useState(false);
-  
   return (
     <div>
-      <div className="row text-center">
-        <div
-          onClick={() => {
-            setOpenNewPasswordDialog(!openNewPasswordDialog);
-          }}
-          className="col-3 header-box"
-        >
-          <div>
-            <i className="fa fa-plus"></i>
+      <Helmet>
+        <title>پسبوک | صفحه اصلی</title>
+      </Helmet>
+      <div className="text-center">
+        <div className="container">
+          <div className="row">
+            <div className="col-3 header-box">
+              <NewPasswordDialog />
+            </div>
+
+            <div className="col-3 header-box border-right">
+              <ContactUsDialog />
+            </div>
+
+            <Link
+              to="/app"
+              className="col-3 header-box border-right"
+            >
+              <div>
+                <i className="fa fa-mobile"></i>
+              </div>
+              <div>اپلیکیشن</div>
+            </Link>
+
+            <Link to="/logout" className="col-3 header-box border-right">
+              <div>
+                <i className="fa fa-sign-out"></i>
+              </div>
+              <div>خروج</div>
+            </Link>
           </div>
-          <div>افزودن رمز جدید</div>
         </div>
-
-        <Link to="#" className="col-3 header-box border-right">
-          <div>
-            <i className="fa fa-lock"></i>
-          </div>
-          <div>رمز تصادفی</div>
-        </Link>
-
-        <Link to="/contact-us" className="col-3 header-box border-right">
-          <div>
-            <i className="fa fa-phone-square"></i>
-          </div>
-          <div>تماس با ما</div>
-        </Link>
-
-        <a
-          href="https://github.com/murik-team"
-          className="col-3 header-box border-right"
-        >
-          <div>
-            <i className="fa fa-users"></i>
-          </div>
-          <div>همکاری با پسبوک</div>
-        </a>
       </div>
-      <NewPasswordDialog
-        showDialog={openNewPasswordDialog}
-      />
     </div>
   );
 };

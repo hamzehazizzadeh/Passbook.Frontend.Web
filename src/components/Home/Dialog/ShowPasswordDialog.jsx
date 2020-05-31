@@ -1,50 +1,72 @@
 import React, { useState } from 'react';
-import { DialogOverlay, DialogContent } from '@reach/dialog';
-import { getPassword } from '../../../services/passwordService';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { useStyles } from './styleDialog';
 
-const ShowPasswordDialog = ({ showDialog, closeDialog, passwordId }) => {
-  const [showPassword, setShowPassword] = useState([]);
+const ShowPasswordDialog = ({ password }) => {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
-  getPassword(passwordId).then((res) => {
-    setShowPassword(res.data);
-  });
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <DialogOverlay
-      style={{ position: 'fixed', top: '0' }}
-      isOpen={showDialog}
-      onDismiss={closeDialog}
-      className="rtl bg-white"
-    >
-      <DialogContent
-        style={{
-          border: 'solid 2px hsla(0, 0%, 0%, 0.5)',
-          borderRadius: '5px',
-          boxShadow: '0px 10px 50px hsla(0, 0%, 0%, 0.33)',
+    <div>
+      <button className="btn btn-info ml-2 mb-2" onClick={handleOpen}>
+        <i className="fa fa-eye"></i>
+      </button>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
         }}
       >
-        {showPassword.map((password) => (
-          <div className="container">
-            <div className="mt-2" key={password.id}>
-              <h5>نام کاربری</h5>
-              <p>{password.userName}</p>
-            </div>
+        <Fade in={open}>
+          <div className={classes.paper} key={password.id}>
+          <h5 className="text-center mt-2 mb-4 text-success">جزئیات</h5>
+          {password.userName ===  null ? null : (
+              <div>
+                <h6 className="text-success">نام کاربری</h6>
+                <p>{password.userName}</p>
+              </div>
+            )}
+            
+            {password.emailAddress ===  null ? null : (
+              <div>
+                <h6 className="text-success">ایمیل</h6>
+                <p>{password.emailAddress}</p>
+              </div>
+            )}
             <div>
-              <h5>ایمیل</h5>
-              <p>{password.email}</p>
-            </div>
-            <div>
-              <h5>جاهای استفاده شده</h5>
+              <h6 className="text-success">ورودی های ثبت شده</h6>
               <p>{password.usedIn}</p>
             </div>
             <div>
-              <h5>رمزعبور</h5>
+              <h6 className="text-success">رمزعبور</h6>
               <p>{password.password}</p>
             </div>
+            <button
+              className="btn btn-success btn-block"
+              onClick={handleClose}
+            >
+              بستن
+            </button>
           </div>
-        ))}
-      </DialogContent>
-    </DialogOverlay>
+        </Fade>
+      </Modal>
+    </div>
   );
 };
 
