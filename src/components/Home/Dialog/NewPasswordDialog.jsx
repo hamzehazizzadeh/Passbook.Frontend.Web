@@ -52,16 +52,21 @@ const NewPasswordDialog = () => {
           setLoading(false);
           resetStates();
           handleClose();
-        } else if (status === 400) {
-          errorMessage(data.errorMessage);
-          setLoading(false);
         }
       } else {
         validator.current.showMessages();
         setLoading(false);
       }
-    } catch (ex) {
-      errorMessage('مشکلی در افزودن پیش آمده.');
+    } catch ({ response }) {
+      if (response) {
+        if (response.status !== null) {
+          errorMessage(response.data.errorMessage);
+        } else {
+          errorMessage('مشکلی پیش آمده است لطفا دوباره امتحان کنید');
+        }
+      } else {
+        errorMessage('لطفا از اتصال خود به اینترنت مطمئن شوید');
+      }
       setLoading(false);
     }
   };
@@ -138,9 +143,7 @@ const NewPasswordDialog = () => {
               </div>
               {/* Used In */}
               <div>
-                <label className="d-block mt-3">
-                  جاهای استفاده شده
-                </label>
+                <label className="d-block mt-3">جاهای استفاده شده</label>
                 <input
                   type="text"
                   name="usedIn"

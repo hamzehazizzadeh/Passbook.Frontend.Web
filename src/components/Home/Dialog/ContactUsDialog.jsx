@@ -57,16 +57,21 @@ const ContactUsDialog = () => {
           resetStates();
           setLoading(false);
           handleClose();
-        } else if (status === 400) {
-          errorMessage(data.errorMessage);
-          setLoading(false);
         }
       } else {
         validator.current.showMessages();
         setLoading(false);
       }
-    } catch (ex) {
-      errorMessage('مشکلی در ارسال پیش آمده.');
+    } catch ({ response }) {
+      if (response) {
+        if (response.status !== null) {
+          errorMessage(response.data.errorMessage);
+        } else {
+          errorMessage('مشکلی پیش آمده است لطفا دوباره امتحان کنید');
+        }
+      } else {
+        errorMessage('لطفا از اتصال خود به اینترنت مطمئن شوید');
+      }
       setLoading(false);
     }
   };
@@ -143,7 +148,7 @@ const ContactUsDialog = () => {
                 <textarea
                   name="userMessage"
                   className="form-control mb-2 text-right"
-                  style={{ minHeight: '8rem', maxHeight:'15rem' }}
+                  style={{ minHeight: '8rem', maxHeight: '15rem' }}
                   value={userMessage}
                   onChange={(e) => {
                     setUserMessage(e.target.value);

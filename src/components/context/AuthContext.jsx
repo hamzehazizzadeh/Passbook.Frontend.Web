@@ -49,19 +49,24 @@ const AuthContext = ({ children, history }) => {
           setLoading(true);
           const { status, data } = await registerUser(user);
           if (status === 200) {
-            successMessage(data.message);
+            successMessage(data.errorMessage);
             history.push('/');
-            setLoading(false);
-          } else if (status === 400) {
-            errorMessage(data.errorMessage);
             setLoading(false);
           }
         } else {
           validator.current.showMessages();
           setLoading(false);
         }
-      } catch (ex) {
-        errorMessage('مشکلی در ثبت نام پیش آمده.');
+      } catch ({ response }) {
+        if (response) {
+          if (response.status !== null) {
+            errorMessage(response.data.errorMessage);
+          } else {
+            errorMessage('مشکلی پیش آمده است لطفا دوباره امتحان کنید');
+          }
+        } else {
+          errorMessage('لطفا از اتصال خود به اینترنت مطمئن شوید');
+        }
         setLoading(false);
       }
     } else {
@@ -87,17 +92,22 @@ const AuthContext = ({ children, history }) => {
           history.replace('/home');
           resetStates();
           setLoading(false);
-          window.location.reload()
-        } else if (status === 400) {
-          errorMessage(data.errorMessage);
-          setLoading(false);
+          window.location.reload();
         }
       } else {
         validator.current.showMessages();
         setLoading(false);
       }
-    } catch (ex) {
-      errorMessage('مشکلی در ورود پیش آمده.');
+    } catch ({ response }) {
+      if (response) {
+        if (response.status !== null) {
+          errorMessage(response.data.errorMessage);
+        } else {
+          errorMessage('مشکلی پیش آمده است لطفا دوباره امتحان کنید');
+        }
+      } else {
+        errorMessage('لطفا از اتصال خود به اینترنت مطمئن شوید');
+      }
       setLoading(false);
     }
   };
@@ -117,16 +127,21 @@ const AuthContext = ({ children, history }) => {
           history.replace('/');
           resetStates();
           setLoading(false);
-        } else if (status === 400) {
-          errorMessage(data.errorMessage);
-          setLoading(false);
         }
       } else {
         validator.current.showMessages();
         setLoading(false);
       }
-    } catch (ex) {
-      errorMessage('مشکلی در بازیابی رمز عبور پیش آمده.');
+    } catch ({ response }) {
+      if (response) {
+        if (response.status !== null) {
+          errorMessage(response.data.errorMessage);
+        } else {
+          errorMessage('مشکلی پیش آمده است لطفا دوباره امتحان کنید');
+        }
+      } else {
+        errorMessage('لطفا از اتصال خود به اینترنت مطمئن شوید');
+      }
       setLoading(false);
     }
   };
@@ -146,16 +161,21 @@ const AuthContext = ({ children, history }) => {
             history.replace('/');
             resetStates();
             setLoading(false);
-          } else if (status === 400) {
-            errorMessage(data.errorMessage);
-            setLoading(false);
           }
         } else {
           validator.current.showMessages();
           setLoading(false);
         }
-      } catch (ex) {
-        errorMessage('مشکلی در تغییر رمز عبور پیش آمده.');
+      } catch ({ response }) {
+        if (response) {
+          if (response.status !== null) {
+            errorMessage(response.data.errorMessage);
+          } else {
+            errorMessage('مشکلی پیش آمده است لطفا دوباره امتحان کنید');
+          }
+        } else {
+          errorMessage('لطفا از اتصال خود به اینترنت مطمئن شوید');
+        }
         setLoading(false);
       }
     } else {
