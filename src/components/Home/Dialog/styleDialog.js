@@ -8,11 +8,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: '1px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     textAlign: 'right',
     minWidth: '20rem',
-    borderRadius : '10px'
+    borderRadius : '7px'
   },
 }));

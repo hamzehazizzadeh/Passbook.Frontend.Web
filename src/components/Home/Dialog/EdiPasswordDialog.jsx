@@ -39,18 +39,16 @@ const EditPasswordDialog = ({ passwords }) => {
 
   useEffect(() => {
     setPasswordId(passwords.id);
+    setUserName(passwords.userName);
+    setEmailAddress(passwords.emailAddress);
+    setUsedIn(passwords.usedIn);
+    setPassword(passwords.password);
 
     return () => {
       setPasswordId();
+      setUserName();
     };
-  }, [passwords]);
-
-  const resetStates = () => {
-    setUserName('');
-    setEmailAddress('');
-    setPassword('');
-    setUsedIn('');
-  };
+  },[]);
 
   const handleEditPassword = async (event, id) => {
     event.preventDefault();
@@ -67,7 +65,6 @@ const EditPasswordDialog = ({ passwords }) => {
         if (status === 200) {
           successMessage(data.message);
           setLoading(false);
-          resetStates();
           handleClose();
         }
       } else {

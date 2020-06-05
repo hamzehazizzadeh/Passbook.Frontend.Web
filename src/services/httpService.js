@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { errorMessage } from './../utils/message';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -14,12 +14,7 @@ axios.interceptors.response.use(null, (error) => {
     error.response.status < 500;
   if (!expectedErrors) {
     console.log(error);
-    toast.error('مشکلی از سمت سرور رخ داده است.', {
-      position: 'top-right',
-      autoClose: 5000,
-      closeOnClick: true,
-      pauseOnHover: true,
-    });
+    errorMessage('مشکلی از سمت سرور رخ داده است.');
   }
 
   return Promise.reject(error);

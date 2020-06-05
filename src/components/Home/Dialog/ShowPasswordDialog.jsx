@@ -50,7 +50,7 @@ const ShowPasswordDialog = ({ password }) => {
               </div>
             )}
             <div>
-              <h6 className="text-success">ورودی های ثبت شده</h6>
+              <h6 className="text-success">جاهای مورد استفاده</h6>
               <p>{password.usedIn}</p>
             </div>
             <div>

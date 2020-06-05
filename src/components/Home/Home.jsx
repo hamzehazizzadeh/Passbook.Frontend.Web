@@ -30,7 +30,6 @@ const Home = () => {
               <tr className="thead-light">
                 <th scope="col">#</th>
                 <th scope="col">رمز عبور</th>
-                <th scope="col">تعداد استفاده</th>
                 <th scope="col">تاریخ ایجاد</th>
                 <th scope="col"></th>
               </tr>
@@ -40,7 +39,6 @@ const Home = () => {
                 <tr key={password.id}>
                   <th>{count++}</th>
                   <td>{password.password}</td>
-                  <td>{password.usedIn.length}</td>
                   <td>{password.createdPersianDateTime}</td>
                   <td>
                     <div className="row">

@@ -28,6 +28,11 @@ body {
 a {
   text-decoration: none !important;
 }
+
+.valid-message {
+  color: red;
+  text-align: right;
+}
 /* End */
 
 /* Auth Style */
@@ -85,11 +90,6 @@ a {
   border: 1px solid #00dbde;
   background: #00dbde;
 }
-
-.valid-message {
-  color: red;
-  text-align: right;
-}
 /* End */
 
 /* Header Style */
@@ -102,7 +102,7 @@ a {
 
 .header-box:hover {
   color: skyblue;
-  transition: all .5s;
+  transition: all 0.5s;
 }
 /* End */
 
@@ -111,7 +111,6 @@ a {
   background: linear-gradient(90deg, #031e46, #bb0000);
   height: 100%;
 }
-
 /* End */
 
 /* Footer Style */
